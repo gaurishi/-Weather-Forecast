@@ -1,0 +1,48 @@
+from PIL import Image , ImageTk
+import requests
+def format_response(weather):
+    try:
+        name=weather['name']
+        desc=weather['weather'][0]['description']
+        temp=weather['main']['temp']
+        
+        final_str = 'City: %s \n Condition: %s \n Temperature (°C): %s' %(name, desc, temp)
+        
+    except:
+        final_str = "No record founf"
+        
+    return final_str
+    
+def knw_weather(city):
+    wkey = '0d54bc48de169a4b6aa12923cb01b987' #Api key
+    link = 'https://api.openweathermap.org/data/2.5/weather' #api call
+    parameters = {'APPID': wkey, 'q':city, 'units':'metric'}
+    response = requests.get(link, params = parameters)
+    weather = response.json()
+    
+    label['text'] = format_response(weather)
+    root = tk.Tk()
+root.title("RISHI WEATHER FORECASTING APP")
+canvas = tk.Canvas(root, height = 500, width = 600)
+canvas.pack()
+
+img = 'imagee.png'
+bgs = ImageTk.PhotoImage(file = img, master = root)
+bgs_label = tk.Label(root, image = bgs)
+bgs_label.place(width = 600,height = 600)
+
+frame = tk.Frame(root, bg ='#00001a', bd= 5)
+frame.place(relx = 0.5,rely = 0.15,relwidth = 1,relheight = 0.15,anchor = 'n')
+
+entry = tk.Entry(frame, font = ('Maindra GD', 20))
+entry.place(relx = 0.025,relheight = 1,relwidth = 0.5)
+
+button = tk.Button(frame, text = 'Search Weather', font = 30, command = lambda: knw_weather(entry.get()))
+button.place(relx = 0.6,relheight = 1,relwidth = 0.4)
+
+lf = tk.Frame(root,bg = 'white',bd=2.5)
+lf.place(relx = 0.5,rely = 0.4,relheight = 0.5,relwidth = 0.8,anchor = 'n')
+
+label = tk.Label(lf, font = ('Maindra GD',20))
+label.place(relwidth = 1,relheight = 1)
+root.mainloop()
