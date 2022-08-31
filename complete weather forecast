@@ -9,7 +9,7 @@ def format_response(weather):
         final_str = 'City: %s \n Condition: %s \n Temperature (°C): %s' %(name, desc, temp)
         
     except:
-        final_str = "No record founf"
+        final_str = "No record found"
         
     return final_str
     
